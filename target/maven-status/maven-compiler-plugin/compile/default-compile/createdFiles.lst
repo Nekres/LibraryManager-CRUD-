@@ -1,0 +1,8 @@
+com/dsltn/crud/service/BookService.class
+com/dsltn/crud/dao/BookDaoImpl.class
+com/dsltn/crud/model/Book.class
+com/dsltn/crud/config/AppInitializer.class
+com/dsltn/crud/controller/BookController.class
+com/dsltn/crud/service/BookServiceImpl.class
+com/dsltn/crud/dao/BookDao.class
+com/dsltn/crud/config/WebConfig.class

@@ -1,0 +1,27 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.dsltn.crud.service;
+
+import com.dsltn.crud.model.Book;
+import java.util.List;
+
+/**
+ *
+ * @author desolation
+ */
+public interface BookService {
+    public void add(Book book);
+    
+    public void edit(Book book);
+
+    public void delete(int id);
+
+    public List<Book> getByGenre(String bookGenre);
+
+    public List<Book> getByAuthor(String author);
+
+    public List<Book> getAllBooks();
+}

@@ -11,16 +11,29 @@ import com.dsltn.crud.dao.BookDaoImpl;
 import com.dsltn.crud.model.Book;
 import com.dsltn.crud.service.BookService;
 import com.dsltn.crud.service.BookServiceImpl;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Scope;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -31,6 +44,9 @@ import org.springframework.web.servlet.view.JstlView;
  * @author desolation
  */
 @Configuration
+@EnableWebMvc
+@ComponentScan(basePackages = {"com.dsltn.crud.controller"})
+@EnableTransactionManagement
 public class WebConfig extends WebMvcConfigurerAdapter{
     
 
@@ -49,7 +65,6 @@ public class WebConfig extends WebMvcConfigurerAdapter{
         return internalResourceViewResolver;
     }
     @Bean("bookController")
-    @Inject
     public BookController getBookController(@Named ("bookService") BookService bookService){
         BookController bc = new BookController();
         bc.setBookService(bookService);
@@ -57,7 +72,6 @@ public class WebConfig extends WebMvcConfigurerAdapter{
         
     } 
     @Bean("bookService")
-    @Inject
     public BookService getBookService(@Named("bookDao") BookDao bookDao){
         BookServiceImpl bs = new BookServiceImpl();
         bs.setBookDao(bookDao);
@@ -65,7 +79,6 @@ public class WebConfig extends WebMvcConfigurerAdapter{
     } 
     
     @Bean("bookDao")
-    @Inject
     public BookDao getBookDao(@Named("sessionFactory") SessionFactory sessionFactory){
         BookDaoImpl bdi = new BookDaoImpl();
         bdi.setSessionFactory(sessionFactory);
@@ -73,16 +86,41 @@ public class WebConfig extends WebMvcConfigurerAdapter{
     }
     
     @Bean("sessionFactory")
-    @Inject
     public SessionFactory getSessionFactory(@Named("dataSource") DataSource dataSource){
         org.springframework.orm.hibernate5.LocalSessionFactoryBean lsfb = new LocalSessionFactoryBean();
+        lsfb.setAnnotatedClasses(BookDao.class);
+        //lsfb.setDataSource(dataSource);
+        lsfb.setHibernateProperties(hibernateProperties());
+        
         lsfb.setPackagesToScan(new String[]{"com.dsltn.crud.dao","com.dsltn.crud.model"});
+        try {
+            lsfb.afterPropertiesSet();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        if (lsfb.getObject() == null){
+            File f = new File("/home/dsltn/text.txt");
+            if(!f.exists())
+                try {
+                    f.createNewFile();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                PrintWriter pw = new PrintWriter(f);
+                pw.print("is null");
+                pw.flush();
+                pw.close();
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        }
         return lsfb.getObject();
     }
     
     @Bean("dataSource")
     @Inject
-    public BasicDataSource getDataSource(){
+    public DataSource getDataSource(){
         BasicDataSource bsd = new BasicDataSource();
         bsd.setDriverClassName("com.mysql.jdbc.Driver");
         bsd.setUrl("jdbc:mysql://localhost:3306/library");
@@ -90,6 +128,24 @@ public class WebConfig extends WebMvcConfigurerAdapter{
         bsd.setPassword("finished");
         return bsd;
     }
+    Properties hibernateProperties(){
+        org.hibernate.cfg.Configuration config = new org.hibernate.cfg.Configuration();
+        config = config.configure();
+        Properties p = config.getProperties();
+       //p.put("hibernate_dialect", "org.hibernate.dialect.MySQLDialect");
+       // p.put("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
+       // p.put("hibernate.connection.url", "jdbc:mysql://localhost:3306/library");
+       // p.put("hibernate.connection.username", "root");
+       // p.put("hibernate.connection.password", "finished");
+        return p;
+    }
+    @Bean
+    public DataSourceTransactionManager transactionManager(@Named("dataSource")
+    DataSource dataSource){
+            DataSourceTransactionManager htm = new DataSourceTransactionManager(dataSource);
+            //htm.setSessionFactory(sessionFactory);
+            return htm;
+        }
         
     }
     

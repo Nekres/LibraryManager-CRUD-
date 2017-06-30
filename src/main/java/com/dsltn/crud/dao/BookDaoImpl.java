@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("bookDao")
 public class BookDaoImpl implements BookDao{
+    
     private SessionFactory sessionFactory;
     
     public void setSessionFactory(SessionFactory sf){
@@ -57,7 +59,7 @@ public class BookDaoImpl implements BookDao{
         List<Book> books = session.createQuery("from book where book_author = " + author).list();
         return books;
     }
-
+    @Transactional
     @Override
     public List<Book> getAllBooks() {
         Session session = sessionFactory.getCurrentSession();

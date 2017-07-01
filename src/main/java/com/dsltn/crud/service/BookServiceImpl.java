@@ -60,4 +60,11 @@ public class BookServiceImpl implements BookService{
         return this.bookDao.getAllBooks();
     }
     
+    @Override
+    @Transactional
+    public Book getBookByid(int id) {
+        return this.bookDao.getBookById(id);
+    }
+    
+    
 }

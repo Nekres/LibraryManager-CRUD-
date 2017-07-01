@@ -69,5 +69,13 @@ public class BookDaoImpl implements BookDao{
         List<Book> books = session.createQuery("from Book").list();
         return books;
     }
+
+    @Override
+    public Book getBookById(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        Book book = (Book)session.load(Book.class, new Integer(id));
+        session.update(book);
+        return book;
+    }
     
 }

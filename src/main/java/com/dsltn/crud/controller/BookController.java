@@ -7,11 +7,10 @@ package com.dsltn.crud.controller;
 
 import com.dsltn.crud.model.Book;
 import com.dsltn.crud.service.BookService;
-import javax.inject.Inject;
-import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -40,4 +39,17 @@ public class BookController {
         model.addAttribute("bookList", this.bookService.getAllBooks());
         return "books";
     }
+    @RequestMapping(value = "/books/add",method = RequestMethod.POST)
+    public String add(@ModelAttribute("/books/add") Book book){
+            bookService.add(book);
+        return "redirect:/books";
+    }
+    @RequestMapping(value = "/books/edit", method = RequestMethod.POST)
+    public String edit(@ModelAttribute("/books/edit") Book book,Model model){
+        this.bookService.edit(book);
+        model.addAttribute("bookList", this.bookService.getAllBooks());
+        return "redirect:books/";
+        
+    }
+    
 }

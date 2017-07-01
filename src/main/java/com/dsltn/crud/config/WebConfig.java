@@ -45,7 +45,7 @@ import org.springframework.web.servlet.view.JstlView;
  * @author desolation
  */
 @Configuration
-@EnableWebMvc
+//@EnableWebMvc
 @ComponentScan(basePackages = {"com.dsltn.crud"})
 @EnableTransactionManagement
 public class WebConfig extends WebMvcConfigurerAdapter{

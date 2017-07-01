@@ -16,7 +16,7 @@ import javax.persistence.Table;
  *
  * @author dsltn
  */
-@Entity(name = "Author")
+@Entity
 @Table(name = "author")
 public class Author {
     

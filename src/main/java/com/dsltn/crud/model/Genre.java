@@ -16,15 +16,17 @@ import javax.persistence.Table;
  *
  * @author dsltn
  */
-@Entity("Genre")
+@Entity
 @Table("genre")
 public class Genre {
+
     @Id
     @Column("genre_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int genreId;
+    
     @Column("genre_title")
-    private String genre_title;
+    private String genreTitle;
 
     public int getGenreId() {
         return genreId;
@@ -34,13 +36,12 @@ public class Genre {
         this.genreId = genreId;
     }
 
-    public String getGenre_title() {
-        return genre_title;
+    public String getGenreTitle() {
+        return genreTitle;
     }
 
-    public void setGenre_title(String genre_title) {
-        this.genre_title = genre_title;
+    public void setGenreTitle(String genreTitle) {
+        this.genreTitle = genreTitle;
     }
-    
-    
+
 }

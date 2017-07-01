@@ -18,12 +18,19 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class GenreServiceImpl implements GenreService{
     private GenreDao genreDao;
+
+    public void setGenreDao(GenreDao genreDao) {
+        this.genreDao = genreDao;
+    }
+    
     @Override
+    @Transactional
     public void add(Genre genre) {
         genreDao.add(genre);
     }
 
     @Override
+    @Transactional
     public Genre getGenreById(int id) {
         return genreDao.getGenreById(id);
     }

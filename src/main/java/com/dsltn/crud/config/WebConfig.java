@@ -6,11 +6,19 @@
 package com.dsltn.crud.config;
 
 import com.dsltn.crud.controller.BookController;
+import com.dsltn.crud.dao.AuthorDao;
+import com.dsltn.crud.dao.AuthorDaoImpl;
 import com.dsltn.crud.dao.BookDao;
 import com.dsltn.crud.dao.BookDaoImpl;
+import com.dsltn.crud.dao.GenreDao;
+import com.dsltn.crud.dao.GenreDaoImpl;
 import com.dsltn.crud.model.Book;
+import com.dsltn.crud.service.AuthorService;
+import com.dsltn.crud.service.AuthorServiceImpl;
 import com.dsltn.crud.service.BookService;
 import com.dsltn.crud.service.BookServiceImpl;
+import com.dsltn.crud.service.GenreService;
+import com.dsltn.crud.service.GenreServiceImpl;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -65,9 +73,12 @@ public class WebConfig extends WebMvcConfigurerAdapter{
         return internalResourceViewResolver;
     }
     @Bean("bookController")
-    public BookController getBookController(@Named ("bookService") BookService bookService){
+    public BookController getBookController(@Named ("bookService") BookService bookService, @Named("authorService") AuthorService authorService, 
+            @Named("genreService")GenreService genreService){
         BookController bc = new BookController();
         bc.setBookService(bookService);
+        bc.setAuthorService(authorService);
+        bc.setGenreService(genreService);
         return bc;
         
     } 
@@ -77,14 +88,36 @@ public class WebConfig extends WebMvcConfigurerAdapter{
         bs.setBookDao(bookDao);
         return bs;
     } 
-    
+    @Bean("authorService")
+    public AuthorService getAuthorService(@Named("authorDao") AuthorDao authorDao){
+        AuthorServiceImpl asi = new AuthorServiceImpl();
+        asi.setAuthorDao(authorDao);
+        return asi;
+    }
+    @Bean("genreService")
+    public GenreService getGenreService(@Named("genreDao") GenreDao genreDao){
+        GenreServiceImpl gsi = new GenreServiceImpl();
+        gsi.setGenreDao(genreDao);
+        return gsi;
+    }
     @Bean("bookDao")
     public BookDao getBookDao(@Named("sessionFactory") SessionFactory sessionFactory){
         BookDaoImpl bdi = new BookDaoImpl();
         bdi.setSessionFactory(sessionFactory);
         return bdi;
     }
-    
+    @Bean("authorDao")
+    public AuthorDao getAuthorDao(@Named("sessionFactory") SessionFactory sessionFactory){
+        AuthorDaoImpl ad = new AuthorDaoImpl();
+        ad.setSessionFactory(sessionFactory);
+        return ad;
+    }
+    @Bean("genreDao")
+    public GenreDao getGenreDao(@Named("sessionFactory") SessionFactory sessionFactory){
+        GenreDaoImpl daoImpl = new GenreDaoImpl();
+        daoImpl.setSessionFactory(sessionFactory);
+        return daoImpl;
+    }
     @Bean("sessionFactory")
     public SessionFactory getSessionFactory(@Named("dataSource") DataSource dataSource){
         org.springframework.orm.hibernate5.LocalSessionFactoryBean lsfb = new LocalSessionFactoryBean();

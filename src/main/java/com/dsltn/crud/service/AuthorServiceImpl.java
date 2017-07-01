@@ -18,6 +18,11 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class AuthorServiceImpl implements AuthorService{
     private AuthorDao authorDao;
+
+    public void setAuthorDao(AuthorDao authorDao) {
+        this.authorDao = authorDao;
+    }
+    
     @Override
     @Transactional
     public void add(Author author) {

@@ -31,11 +31,9 @@ public class Book {
     private String bookTitle;
     
     @ManyToOne
-    @JoinColumn(name = "author_id")
     private Author author;
     
     @ManyToOne
-    @JoinColumn(name = "genre_id")
     private Genre genre;
     
     @Column(name = "book_description")

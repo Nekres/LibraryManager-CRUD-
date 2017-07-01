@@ -55,5 +55,14 @@ public class BookController {
         return "redirect:books/";
         
     }
+
+    public void setAuthorService(AuthorService authorService) {
+        this.authorService = authorService;
+    }
+
+    public void setGenreService(GenreService genreService) {
+        this.genreService = genreService;
+    }
+    
     
 }

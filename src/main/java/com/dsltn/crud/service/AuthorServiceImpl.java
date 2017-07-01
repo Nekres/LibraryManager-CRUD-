@@ -34,5 +34,11 @@ public class AuthorServiceImpl implements AuthorService{
     public Author getAuthorById(int id) {
         return authorDao.getAuthorById(id);
     }
+
+    @Override
+    @Transactional
+    public Author getAuthorByNameAndSurname(String name, String surname) {
+        return authorDao.getAuthorByNameAndSurname(name, surname);
+    }
     
 }

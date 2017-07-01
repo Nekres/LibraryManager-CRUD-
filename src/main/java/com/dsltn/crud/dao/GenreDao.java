@@ -14,4 +14,5 @@ import com.dsltn.crud.model.Genre;
 public interface GenreDao {
     public void add(Genre genre);
     public Genre getGenreById(int id);
+    public Genre getGenreByTitle(String title);
 }

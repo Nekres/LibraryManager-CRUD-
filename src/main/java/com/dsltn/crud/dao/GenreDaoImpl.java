@@ -6,8 +6,10 @@
 package com.dsltn.crud.dao;
 
 import com.dsltn.crud.model.Genre;
+import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -27,6 +29,7 @@ public class GenreDaoImpl implements GenreDao{
     @Override
     public void add(Genre genre) {
         Session session = sessionFactory.getCurrentSession();
+        genre.setGenreId(0);
         session.persist(genre);
     }
 
@@ -35,6 +38,18 @@ public class GenreDaoImpl implements GenreDao{
         Session session = sessionFactory.getCurrentSession();
         Genre genre = session.load(Genre.class, new Integer(id));
         return genre;
+    }
+
+    @Override
+    public Genre getGenreByTitle(String title) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("FROM Genre where genreTitle = :title");
+        query.setParameter("title", title.toLowerCase());
+        List<Genre> list = query.list();
+        Genre g = null;
+        if(list.size() > 0)
+            g = list.get(0);
+        return g;
     }
     
 }

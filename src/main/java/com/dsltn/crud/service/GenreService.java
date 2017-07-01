@@ -16,4 +16,6 @@ public interface GenreService {
     public void add(Genre genre);
 
     public Genre getGenreById(int id);
+    
+    public Genre getGenreByTitle(String title);
 }

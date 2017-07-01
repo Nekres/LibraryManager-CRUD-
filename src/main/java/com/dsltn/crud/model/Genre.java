@@ -23,7 +23,7 @@ public class Genre {
 
     @Id
     @Column(name = "genre_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int genreId;
     
     @Column(name = "genre_title")

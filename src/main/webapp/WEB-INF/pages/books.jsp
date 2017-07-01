@@ -51,8 +51,13 @@
                     </spring:bind>
                         <br> 
                         <spring:bind path="author.authorName">
-                        <form:label path="author.authorName">Author</form:label><br> 
-                    <form:input path="author.authorName" type="text" placeholder="bookAuthor"/>
+                        <form:label path="author.authorName">Author Name</form:label><br> 
+                    <form:input path="author.authorName" type="text" placeholder="name"/>
+                    </spring:bind>
+                        <br>
+                        <spring:bind path="author.authorSurname">
+                        <form:label path="author.authorSurname">Author Surname</form:label><br> 
+                    <form:input path="author.authorSurname" type="text" placeholder="surname"/>
                     </spring:bind>
                         <br> 
                         <spring:bind path="genre.genreTitle">
@@ -73,6 +78,45 @@
                         <br> 
               </form:form>
             <hr>
+            <h3>Edit Book by ID</h3>
+            <spring:url value="/books/edit" var="editBookAction" />
+                <form:form modelAttribute="book" action="${editBookAction}">
+                    <spring:bind path="id">
+                        <form:label path="id">ID</form:label><br>
+                        <form:input path="id" type="number" placeholder="ID" />
+                    </spring:bind><br>
+                    <spring:bind path="bookTitle">
+                        <form:label path="bookTitle">Title</form:label><br> 
+                    <form:input path="bookTitle" type="text" placeholder="bookTitle"/>
+                    </spring:bind>
+                        <br> 
+                        <spring:bind path="author.authorName">
+                        <form:label path="author.authorName">Author Name</form:label><br> 
+                    <form:input path="author.authorName" type="text" placeholder="name"/>
+                    </spring:bind>
+                        <br>
+                        <spring:bind path="author.authorSurname">
+                        <form:label path="author.authorSurname">Author Surname</form:label><br> 
+                    <form:input path="author.authorSurname" type="text" placeholder="surname"/>
+                    </spring:bind>
+                        <br> 
+                        <spring:bind path="genre.genreTitle">
+                        <form:label path="genre.genreTitle">Genre</form:label><br> 
+                    <form:input path="genre.genreTitle" type="text" placeholder="bookGenre"/>
+                    </spring:bind>
+                        <br> 
+                        <spring:bind path="bookDescription">
+                        <form:label path="bookDescription">Description</form:label><br> 
+                    <form:input path="bookDescription" type="text" placeholder="bookDescription"/>
+                    </spring:bind>
+                        <br> 
+                        <spring:bind path="bookPrice">
+                        <form:label path="bookPrice">Price</form:label><br> 
+                    <form:input path="bookPrice" type="number" placeholder="bookPrice"/>
+                    </spring:bind>
+                        <button type="submit">Edit</button>
+                        <br> 
+              </form:form>
         
         
     </body>

@@ -15,4 +15,5 @@ public interface AuthorService {
     
     public void add(Author author);
     public Author getAuthorById(int id);
+    public Author getAuthorByNameAndSurname(String name, String surname);
 }

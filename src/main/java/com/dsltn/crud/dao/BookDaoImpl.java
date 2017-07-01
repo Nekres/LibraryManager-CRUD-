@@ -32,6 +32,7 @@ public class BookDaoImpl implements BookDao{
     @Override
     public void add(Book book) {
         Session session = sessionFactory.getCurrentSession();
+        book.setId(0);
         session.persist(book);
     }
 
@@ -44,7 +45,7 @@ public class BookDaoImpl implements BookDao{
     @Override
     public void delete(int id) {
         Session session = sessionFactory.getCurrentSession();
-        Book b = (Book)session.load(Book.class, new Integer(id));
+        Book b = (Book)session.get(Book.class, new Integer(id));
         if(b != null)
             session.delete(b);
     }
@@ -72,8 +73,7 @@ public class BookDaoImpl implements BookDao{
     @Override
     public Book getBookById(int id) {
         Session session = sessionFactory.getCurrentSession();
-        Book book = (Book)session.load(Book.class, new Integer(id));
-        session.update(book);
+        Book book = (Book)session.get(Book.class, new Integer(id));
         return book;
     }
     

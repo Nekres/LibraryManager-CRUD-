@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -28,11 +30,13 @@ public class Book {
     @Column(name = "book_title")
     private String bookTitle;
     
-    @Column(name = "book_author")
-    private String bookAuthor;
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private Author author;
     
-    @Column(name = "book_genre")
-    private String bookGenre;
+    @ManyToOne
+    @JoinColumn(name = "genre_id")
+    private Genre genre;
     
     @Column(name = "book_description")
     private String bookDescription;
@@ -56,20 +60,20 @@ public class Book {
         this.bookTitle = bookTitle;
     }
 
-    public String getBookAuthor() {
-        return bookAuthor;
+    public Author getAuthor() {
+        return author;
     }
 
-    public void setBookAuthor(String bookAuthor) {
-        this.bookAuthor = bookAuthor;
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
-    public String getBookGenre() {
-        return bookGenre;
+    public Genre getGenre() {
+        return genre;
     }
 
-    public void setBookGenre(String bookGenre) {
-        this.bookGenre = bookGenre;
+    public void setGenre(Genre genre) {
+        this.genre = genre;
     }
 
     public String getBookDescription() {
@@ -88,4 +92,6 @@ public class Book {
         this.bookPrice = bookPrice;
     }
 
+    
+    
 }

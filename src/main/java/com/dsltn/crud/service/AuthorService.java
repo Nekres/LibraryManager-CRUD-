@@ -5,10 +5,14 @@
  */
 package com.dsltn.crud.service;
 
+import com.dsltn.crud.model.Author;
+
 /**
  *
  * @author dsltn
  */
 public interface AuthorService {
     
+    public void add(Author author);
+    public Author getAuthorById(int id);
 }

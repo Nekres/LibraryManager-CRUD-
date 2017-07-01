@@ -5,10 +5,34 @@
  */
 package com.dsltn.crud.dao;
 
+import com.dsltn.crud.model.Author;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Repository;
+
 /**
  *
  * @author dsltn
  */
-public class AuthorDaoImpl {
+@Repository("authorDao")
+public class AuthorDaoImpl implements AuthorDao{
+    private SessionFactory sessionFactory;
+    
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+    
+    @Override
+    public void add(Author author) {
+        Session session = sessionFactory.getCurrentSession();
+        session.persist(author);
+    }
+
+    @Override
+    public Author getAuthorById(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        Author author = session.load(Author.class, new Integer(id));
+        return author;
+    }
     
 }

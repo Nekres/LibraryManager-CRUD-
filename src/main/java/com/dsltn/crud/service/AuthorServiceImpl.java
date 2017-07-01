@@ -5,10 +5,29 @@
  */
 package com.dsltn.crud.service;
 
+import com.dsltn.crud.dao.AuthorDao;
+import com.dsltn.crud.model.Author;
+import javax.transaction.Transactional;
+import org.springframework.stereotype.Service;
+
 /**
  *
  * @author dsltn
  */
-public class AuthorServiceImpl {
+@Service
+@Transactional
+public class AuthorServiceImpl implements AuthorService{
+    private AuthorDao authorDao;
+    @Override
+    @Transactional
+    public void add(Author author) {
+        authorDao.add(author);
+    }
+
+    @Override
+    @Transactional
+    public Author getAuthorById(int id) {
+        return authorDao.getAuthorById(id);
+    }
     
 }

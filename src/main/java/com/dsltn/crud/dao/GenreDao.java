@@ -5,10 +5,13 @@
  */
 package com.dsltn.crud.dao;
 
+import com.dsltn.crud.model.Genre;
+
 /**
  *
  * @author dsltn
  */
 public interface GenreDao {
-    
+    public void add(Genre genre);
+    public Genre getGenreById(int id);
 }

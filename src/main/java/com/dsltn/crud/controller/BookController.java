@@ -6,7 +6,9 @@
 package com.dsltn.crud.controller;
 
 import com.dsltn.crud.model.Book;
+import com.dsltn.crud.service.AuthorService;
 import com.dsltn.crud.service.BookService;
+import com.dsltn.crud.service.GenreService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/")
 public class BookController {
     private BookService bookService;
+    private AuthorService authorService;
+    private GenreService genreService;
     
     @RequestMapping(method = RequestMethod.GET)
     public String printWelcomePage(ModelMap model){

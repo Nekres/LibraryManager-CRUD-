@@ -5,10 +5,16 @@
  */
 package com.dsltn.crud.dao;
 
+import com.dsltn.crud.model.Author;
+import org.springframework.stereotype.Repository;
+
 /**
  *
  * @author dsltn
  */
+
 public interface AuthorDao {
+    public void add(Author author);
+    public Author getAuthorById(int id);
     
 }

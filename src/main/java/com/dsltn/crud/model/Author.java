@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
 /**
  *
  * @author dsltn
@@ -21,14 +22,14 @@ import javax.persistence.Table;
 public class Author {
     
     @Id
-    @Column("author_id")
+    @Column(name = "author_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int authorId;
     
-    @Column("author_name")
+    @Column(name = "author_name")
     private String authorName;
     
-    @Column("author_surname")
+    @Column(name = "author_surname")
     private String authorSurname;
 
     public int getAuthorId() {

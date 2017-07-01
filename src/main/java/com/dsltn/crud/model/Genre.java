@@ -12,20 +12,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
 /**
  *
  * @author dsltn
  */
 @Entity
-@Table("genre")
+@Table(name = "genre")
 public class Genre {
 
     @Id
-    @Column("genre_id")
+    @Column(name = "genre_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int genreId;
     
-    @Column("genre_title")
+    @Column(name = "genre_title")
     private String genreTitle;
 
     public int getGenreId() {
@@ -43,5 +44,6 @@ public class Genre {
     public void setGenreTitle(String genreTitle) {
         this.genreTitle = genreTitle;
     }
+    
 
 }

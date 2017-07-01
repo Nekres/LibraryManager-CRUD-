@@ -34,7 +34,7 @@ public class BookController {
     }
     
    
-    @RequestMapping(value = "books", method = RequestMethod.GET)
+    @RequestMapping(value = "/books", method = RequestMethod.GET)
     public String bookList(Model model){
         model.addAttribute("book", new Book());
         model.addAttribute("bookList", this.bookService.getAllBooks());

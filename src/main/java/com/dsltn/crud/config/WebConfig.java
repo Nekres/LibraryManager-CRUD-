@@ -29,6 +29,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
@@ -45,10 +46,9 @@ import org.springframework.web.servlet.view.JstlView;
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"com.dsltn.crud.controller"})
+@ComponentScan(basePackages = {"com.dsltn.crud"})
 @EnableTransactionManagement
 public class WebConfig extends WebMvcConfigurerAdapter{
-    
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -89,39 +89,20 @@ public class WebConfig extends WebMvcConfigurerAdapter{
     public SessionFactory getSessionFactory(@Named("dataSource") DataSource dataSource){
         org.springframework.orm.hibernate5.LocalSessionFactoryBean lsfb = new LocalSessionFactoryBean();
         lsfb.setAnnotatedClasses(BookDao.class);
-        //lsfb.setDataSource(dataSource);
+        lsfb.setDataSource(dataSource);
         lsfb.setHibernateProperties(hibernateProperties());
-        
-        lsfb.setPackagesToScan(new String[]{"com.dsltn.crud.dao","com.dsltn.crud.model"});
+        lsfb.setPackagesToScan(new String[]{"com.dsltn.crud.model"});
         try {
             lsfb.afterPropertiesSet();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        if (lsfb.getObject() == null){
-            File f = new File("/home/dsltn/text.txt");
-            if(!f.exists())
-                try {
-                    f.createNewFile();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            try {
-                PrintWriter pw = new PrintWriter(f);
-                pw.print("is null");
-                pw.flush();
-                pw.close();
-            } catch (FileNotFoundException ex) {
-                ex.printStackTrace();
-            }
-        }
         return lsfb.getObject();
     }
     
     @Bean("dataSource")
-    @Inject
-    public DataSource getDataSource(){
-        BasicDataSource bsd = new BasicDataSource();
+    public DriverManagerDataSource getDataSource(){
+        DriverManagerDataSource bsd = new DriverManagerDataSource();
         bsd.setDriverClassName("com.mysql.jdbc.Driver");
         bsd.setUrl("jdbc:mysql://localhost:3306/library");
         bsd.setUsername("root");
@@ -130,6 +111,7 @@ public class WebConfig extends WebMvcConfigurerAdapter{
     }
     Properties hibernateProperties(){
         org.hibernate.cfg.Configuration config = new org.hibernate.cfg.Configuration();
+        config.addAnnotatedClass(Book.class);
         config = config.configure();
         Properties p = config.getProperties();
        //p.put("hibernate_dialect", "org.hibernate.dialect.MySQLDialect");
@@ -140,10 +122,10 @@ public class WebConfig extends WebMvcConfigurerAdapter{
         return p;
     }
     @Bean
-    public DataSourceTransactionManager transactionManager(@Named("dataSource")
-    DataSource dataSource){
-            DataSourceTransactionManager htm = new DataSourceTransactionManager(dataSource);
-            //htm.setSessionFactory(sessionFactory);
+    public HibernateTransactionManager transactionManager(@Named("sessionFactory") SessionFactory sessionFactory){
+            HibernateTransactionManager htm = new HibernateTransactionManager();
+                    htm.setSessionFactory(sessionFactory);
+                   // htm.setDataSource(dataSource);
             return htm;
         }
         

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
  * @author desolation
  */
 @Service
+@Transactional
 public class BookServiceImpl implements BookService{
     private BookDao bookDao;
 

@@ -54,7 +54,9 @@ public class BookDaoImpl implements BookDao{
     @Override
     public List<Book> getByGenre(String bookGenre) {
         Session session = sessionFactory.getCurrentSession();
-        List<Book> books = session.createQuery("from book where book_genre = " + bookGenre).list();
+        Query query = session.createQuery("from Book b where b.genre.genreTitle = :genre");
+        query.setParameter("genre", bookGenre);
+        List<Book> books = query.list();
         return books;
     }
 

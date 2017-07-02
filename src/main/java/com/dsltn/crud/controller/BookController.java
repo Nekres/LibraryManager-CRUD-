@@ -39,6 +39,7 @@ public class BookController {
         model.addAttribute("bookList", this.bookService.getAllBooks());
         model.addAttribute("client",new Client());
         model.addAttribute("author", new Author());
+        model.addAttribute("genre", new Genre());
         return "index";    
     }
     @RequestMapping(value = "/books/author", method = RequestMethod.POST)
@@ -52,6 +53,21 @@ public class BookController {
         model.put("book",new Book());
         model.put("client", new Client());
         model.put("author", new Author());
+        model.addAttribute("genre", new Genre());
+        return "index";
+    }
+    @RequestMapping(value = "books/genre", method = RequestMethod.POST)
+    public String printBooksByGenre(@ModelAttribute Genre genre, ModelMap model){
+        List<Book> list;
+        if(genre.getGenreTitle() == ""){
+            list = bookService.getAllBooks();
+        }else
+            list = bookService.getByGenre(genre.getGenreTitle());
+        model.put("bookList", list);
+        model.put("book", new Book());
+        model.put("client", new Client());
+        model.put("author", new Author());
+        model.put("genre", new Genre());
         return "index";
     }
     
@@ -98,9 +114,9 @@ public class BookController {
         Author a = book.getAuthor();
         Book b = bookService.getBookByid(book.getId());
         if(b == null){
-            model.addAttribute("errorMessage","Book with this id not exist");
+            model.addAttribute("infoMessage","Book with this id not exist");
             model.addAttribute("goBack","<a href=\"../books\">Go back and try again</a>");
-            return "error";
+            return "info";
         }//if books does not exist throw error
         String name = a.getAuthorName();
         String surname = a.getAuthorSurname();

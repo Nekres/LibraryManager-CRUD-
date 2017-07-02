@@ -20,6 +20,7 @@
         <h1>Welcome to Library. You can order any book you want by filling the form below.</h1>
         <spring:url value="/order/buy" var="order"/>
         <form:form modelAttribute="client" action="${order}">
+            <h4>Make an order</h4>
             <table >
                     <tr>
             <td ><form:label path="firstName">First Name</form:label>
@@ -69,15 +70,85 @@
                 <button type="submit">Apply</button>
             </form:form>
                 </div>
+                <div id="sortByGenre">
+                    Get book list by genre<br><br>
+                <spring:url value="/books/genre" var="byGenre"/>
+                <form:form modelAttribute="genre" action="${byGenre}">
+                    <form:label path="genreTitle">Genre</form:label><br>
+                <form:input path="genreTitle" type="text" placeholder="First Name"/><br>
+                <button type="submit">Apply</button>
+            </form:form>
+                </div>
                 <hr>
                 <style>
                     #sortByAuthor{
                         position: absolute;
                         width: 30%;
+                        height: 30%;
                         left:20%;
                         top:25%;
+                        border: 3px solid #e3eef7;
                         
                     }
+                    #sortByGenre{
+                        border: 3px solid #e3eef7;
+                        position:absolute;
+                        width:30%;
+                        height: 30%;
+                        left: 55%;
+                        top:25%;
+                    }
+                    .table_blur {
+  background: #f5ffff;
+  border-collapse: collapse;
+  text-align: left;
+}
+.table_blur th {
+  border-top: 1px solid #777777;	
+  border-bottom: 1px solid #777777; 
+  box-shadow: inset 0 1px 0 #999999, inset 0 -1px 0 #999999;
+  background: linear-gradient(#9595b6, #5a567f);
+  color: white;
+  padding: 10px 15px;
+  position: relative;
+}
+.table_blur th:after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 25%;
+  height: 25%;
+  width: 100%;
+  background: linear-gradient(rgba(255, 255, 255, 0), rgba(255,255,255,.08));
+}
+.table_blur tr:nth-child(odd) {
+  background: #ebf3f9;
+}
+.table_blur th:first-child {
+  border-left: 1px solid #777777;	
+  border-bottom:  1px solid #777777;
+  box-shadow: inset 1px 1px 0 #999999, inset 0 -1px 0 #999999;
+}
+.table_blur th:last-child {
+  border-right: 1px solid #777777;
+  border-bottom:  1px solid #777777;
+  box-shadow: inset -1px 1px 0 #999999, inset 0 -1px 0 #999999;
+}
+.table_blur td {
+  border: 1px solid #e3eef7;
+  padding: 10px 15px;
+  position: relative;
+  transition: all 0.5s ease;
+}
+.table_blur tbody:hover td {
+  color: transparent;
+  text-shadow: 0 0 3px #a09f9d;
+}
+.table_blur tbody:hover tr:hover td {
+  color: #444444;
+  text-shadow: none;
+}
                     </style>
     </body>
 </html>

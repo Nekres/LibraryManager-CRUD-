@@ -33,7 +33,7 @@ public class OrderController extends WebMvcConfigurerAdapter{
         if(client.getFirstName() == "" && client.getLastName() == "" && client.getAddress() == ""){
             model.addAttribute("errorMessage","Some fields is empty. You must to fill them all.");
             model.addAttribute("goBack","<a href=\"../\">Go back and try again</a>");
-            return "/error";
+            return "/info";
         }
         client.setQuantity(client.bookCounter.size());
         client.setUserId(0);

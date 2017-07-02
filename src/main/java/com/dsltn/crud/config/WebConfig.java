@@ -6,10 +6,13 @@
 package com.dsltn.crud.config;
 
 import com.dsltn.crud.controller.BookController;
+import com.dsltn.crud.controller.OrderController;
 import com.dsltn.crud.dao.AuthorDao;
 import com.dsltn.crud.dao.AuthorDaoImpl;
 import com.dsltn.crud.dao.BookDao;
 import com.dsltn.crud.dao.BookDaoImpl;
+import com.dsltn.crud.dao.ClientDao;
+import com.dsltn.crud.dao.ClientDaoImpl;
 import com.dsltn.crud.dao.GenreDao;
 import com.dsltn.crud.dao.GenreDaoImpl;
 import com.dsltn.crud.model.Book;
@@ -17,6 +20,8 @@ import com.dsltn.crud.service.AuthorService;
 import com.dsltn.crud.service.AuthorServiceImpl;
 import com.dsltn.crud.service.BookService;
 import com.dsltn.crud.service.BookServiceImpl;
+import com.dsltn.crud.service.ClientService;
+import com.dsltn.crud.service.ClientServiceImpl;
 import com.dsltn.crud.service.GenreService;
 import com.dsltn.crud.service.GenreServiceImpl;
 import java.io.File;
@@ -36,11 +41,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -53,14 +56,14 @@ import org.springframework.web.servlet.view.JstlView;
  * @author desolation
  */
 @Configuration
-//@EnableWebMvc
+@EnableWebMvc
 @ComponentScan(basePackages = {"com.dsltn.crud"})
 @EnableTransactionManagement
 public class WebConfig extends WebMvcConfigurerAdapter{
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/WEB-INF/pages/**").addResourceLocations("/pages/");
+        registry.addResourceHandler("/WEB-INF/pages/**").addResourceLocations("/pages/**");
         
     }
     
@@ -82,6 +85,12 @@ public class WebConfig extends WebMvcConfigurerAdapter{
         return bc;
         
     } 
+    @Bean("orderController")
+    public OrderController getOrderController(@Named ("clientService") ClientService clientService){
+        OrderController oc = new OrderController();
+        oc.setClientService(clientService);
+        return oc;
+    }
     @Bean("bookService")
     public BookService getBookService(@Named("bookDao") BookDao bookDao){
         BookServiceImpl bs = new BookServiceImpl();
@@ -100,6 +109,12 @@ public class WebConfig extends WebMvcConfigurerAdapter{
         gsi.setGenreDao(genreDao);
         return gsi;
     }
+    @Bean("clientService")
+    public ClientService getClientService(@Named("clientDao") ClientDao clientDao){
+        ClientServiceImpl csi = new ClientServiceImpl();
+        csi.setClientDao(clientDao);
+        return csi;
+    }
     @Bean("bookDao")
     public BookDao getBookDao(@Named("sessionFactory") SessionFactory sessionFactory){
         BookDaoImpl bdi = new BookDaoImpl();
@@ -117,6 +132,12 @@ public class WebConfig extends WebMvcConfigurerAdapter{
         GenreDaoImpl daoImpl = new GenreDaoImpl();
         daoImpl.setSessionFactory(sessionFactory);
         return daoImpl;
+    }
+    @Bean("clientDao")
+    public ClientDao getClientDao(@Named("sessionFactory") SessionFactory sessionFactory){
+        ClientDaoImpl cdi = new ClientDaoImpl();
+        cdi.setSessionFactory(sessionFactory);
+        return cdi;
     }
     @Bean("sessionFactory")
     public SessionFactory getSessionFactory(@Named("dataSource") DataSource dataSource){

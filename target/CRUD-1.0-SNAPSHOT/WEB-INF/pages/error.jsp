@@ -12,7 +12,11 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Book with this ID not exist.</h1>
-        <a href="../books">Go back and try again</a>
+        <%
+            String select = (String)request.getAttribute("errorMessage");
+            out.println(select);
+            String getback = (String)request.getAttribute("goBack");
+            out.println(getback);
+            %>
     </body>
 </html>

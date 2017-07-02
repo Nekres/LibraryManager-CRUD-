@@ -17,7 +17,7 @@ public interface BookDao {
     public void edit(Book book);
     public void delete(int id);
     public List<Book> getByGenre(String bookGenre);
-    public List<Book> getByAuthor(String author);
+    public List<Book> getByAuthor(String author, String authorSurname);
     public List<Book> getAllBooks();
     public Book getBookById(int id);
     

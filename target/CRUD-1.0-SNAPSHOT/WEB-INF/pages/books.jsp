@@ -12,11 +12,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <spring:url value="/resources/css/styles.css" var="mainCss" />
+        <link href="${mainCss}" rel="stylesheet" />
     </head>
     <body>
         <h1>Welcome to Library Manager admin-mode</h1>
         <c:if test="${!empty bookList}">
-            <table border="1">
+            <table border="1" class="table_blur">
                 <tr>
                     <td>id</td>
                     <td>title</td>

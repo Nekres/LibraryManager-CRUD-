@@ -7,15 +7,19 @@ package com.dsltn.crud.controller;
 
 import com.dsltn.crud.model.Author;
 import com.dsltn.crud.model.Book;
+import com.dsltn.crud.model.Client;
 import com.dsltn.crud.model.Genre;
 import com.dsltn.crud.service.AuthorService;
 import com.dsltn.crud.service.BookService;
 import com.dsltn.crud.service.GenreService;
+import java.util.ArrayList;
+import java.util.List;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -32,7 +36,23 @@ public class BookController {
     
     @RequestMapping(method = RequestMethod.GET)
     public String printWelcomePage(ModelMap model){
+        model.addAttribute("bookList", this.bookService.getAllBooks());
+        model.addAttribute("client",new Client());
+        model.addAttribute("author", new Author());
         return "index";    
+    }
+    @RequestMapping(value = "/books/author", method = RequestMethod.POST)
+    public String printBooksByAuthor(@ModelAttribute Author author, ModelMap model){
+        List<Book> list;
+        if(author.getAuthorName() == "" || author.getAuthorSurname() == ""){
+            list = bookService.getAllBooks();
+        } else
+        list = bookService.getByAuthor(author.getAuthorName(), author.getAuthorSurname());
+        model.put("bookList",list);
+        model.put("book",new Book());
+        model.put("client", new Client());
+        model.put("author", new Author());
+        return "index";
     }
     
     public void setBookService(BookService bookService){
@@ -54,7 +74,7 @@ public class BookController {
         return "books";
     }
     @RequestMapping(value = "/books/add",method = RequestMethod.POST)
-    public String add(@ModelAttribute("/books/add") Book book){
+    public String add(@ModelAttribute("book") Book book){
         Author a = book.getAuthor();
         String name = a.getAuthorName();
         String surname = a.getAuthorSurname();
@@ -74,11 +94,14 @@ public class BookController {
         return "redirect:/books";
     }
     @RequestMapping(value = "/books/edit", method = RequestMethod.POST)
-    public String edit(@ModelAttribute("/books/edit") Book book,Model model){
+    public String edit(@ModelAttribute("book") Book book,Model model){
         Author a = book.getAuthor();
         Book b = bookService.getBookByid(book.getId());
-        if(b == null)
-            return "error"; //if books does not exist throw error
+        if(b == null){
+            model.addAttribute("errorMessage","Book with this id not exist");
+            model.addAttribute("goBack","<a href=\"../books\">Go back and try again</a>");
+            return "error";
+        }//if books does not exist throw error
         String name = a.getAuthorName();
         String surname = a.getAuthorSurname();
         Author author = authorService.getAuthorByNameAndSurname(name, surname);
@@ -96,6 +119,7 @@ public class BookController {
         bookService.edit(book);
         return "redirect:/books";
     }
+    
 
    
     

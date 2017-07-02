@@ -13,6 +13,7 @@ import javax.persistence.PersistenceContext;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,7 +50,7 @@ public class BookDaoImpl implements BookDao{
         if(b != null)
             session.delete(b);
     }
-
+    
     @Override
     public List<Book> getByGenre(String bookGenre) {
         Session session = sessionFactory.getCurrentSession();
@@ -58,9 +59,15 @@ public class BookDaoImpl implements BookDao{
     }
 
     @Override
-    public List<Book> getByAuthor(String author) {
+    public List<Book> getByAuthor(String author, String authorSurname) {
         Session session = sessionFactory.getCurrentSession();
-        List<Book> books = session.createQuery("from book b inner join author a on b.author_id = a.author_id  where author_name = " + author).list();
+        Query query = session.createQuery("from Book b where b.author.authorName = :author and b.author.authorSurname = "
+                + ":authorsurname");    
+        query.setParameter("author", author);
+        query.setParameter("authorsurname", authorSurname);
+        List<Book> books =  query.list();
+        for(Book b: books)
+            System.out.println(b.getAuthor().getAuthorName());
         return books;
     }
     @Override
@@ -76,5 +83,6 @@ public class BookDaoImpl implements BookDao{
         Book book = (Book)session.get(Book.class, new Integer(id));
         return book;
     }
+    
     
 }

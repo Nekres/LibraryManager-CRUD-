@@ -13,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -26,7 +29,7 @@ public class Book {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    
+    @Size(min = 4, max = 40, message = "Book title must be at least 4 character size, and not more than 40 characters")
     @Column(name = "book_title")
     private String bookTitle;
     
@@ -37,10 +40,10 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "genre_id")
     private Genre genre;
-    
+    @NotNull(message = "Description can't be empty.")
     @Column(name = "book_description")
     private String bookDescription;
-    
+    @Min(value = 1, message = "Minimum value for price is 1")
     @Column(name = "book_price")
     private Double bookPrice;
 

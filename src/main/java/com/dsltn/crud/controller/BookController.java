@@ -115,7 +115,7 @@ public class BookController {
         Book b = bookService.getBookByid(book.getId());
         if(b == null){
             model.addAttribute("infoMessage","Book with this id not exist");
-            model.addAttribute("goBack","<a href=\"../books\">Go back and try again</a>");
+            model.addAttribute("goBack","<a href=\"../books\">Back to the main page.</a>");
             return "info";
         }//if books does not exist throw error
         String name = a.getAuthorName();

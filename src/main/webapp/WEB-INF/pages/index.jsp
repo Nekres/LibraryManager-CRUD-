@@ -17,20 +17,26 @@
     </head>
     <body>
         <a href="<c:url value="/books"/>">Log as SuperAdmin</a>
-        <h1>Welcome to Library. You can order any book you want by filling the form below.</h1>
+        <h1 align="center">Welcome to Library.<h1> 
+                
+                <h4>You can order any book you want by filling the form below.</h4>
+                <p>You need to choose books from table you would like to get</p>
         <spring:url value="/order/buy" var="order"/>
         <form:form modelAttribute="client" action="${order}">
             <h4>Make an order</h4>
             <table >
                     <tr>
             <td ><form:label path="firstName">First Name</form:label>
-                <form:input path="firstName" type="text" placeholder="First Name"/></td></tr>
+                <form:input path="firstName" type="text" placeholder="First Name"/></td>
+            <td>  <form:errors path="firstName" cssClass="error"> </form:errors></td></tr>
                     <tr><td width="100px"> <form:label path="lastName">Last Name</form:label>
-                            <form:input path="lastName" type="text" placeholder="Last Name"/></td></tr>
+                            <form:input path="lastName" type="text" placeholder="Last Name"/></td>
+                    <td>  <form:errors path="lastName" cssClass="error"> </form:errors></td></tr>
                     <tr>  <td> <form:label path="address">Address</form:label>
-                            <form:input path="address" type="text" placeholder="Address"/></td></tr>
+                            <form:input path="address" type="text" placeholder="Address"/></td>
+                    <td>  <form:errors path="address" cssClass="error"> </form:errors></td></tr>
                 </table>
-                            <button type="submit">Make an order</button>
+                            <button class="button" type="submit">Make an order</button>
          <c:if test="${!empty bookList}">
             <table border="1" class="table_blur">
                 <tr>
@@ -60,23 +66,26 @@
             
             </form:form>
             <div id="sortByAuthor">
-                Get book list by author name and surname<br><br>
+                <b>Get book list by author name and surname
+                </b>
+                (Leave empty to get all books)<br><br>
                 <spring:url value="/books/author" var="byAuthor"/>
                 <form:form modelAttribute="author" action="${byAuthor}">
                     <form:label path="authorName">First Name</form:label><br>
                 <form:input path="authorName" type="text" placeholder="First Name"/><br>
                 <form:label path="authorSurname">Surname</form:label><br>
                 <form:input path="authorSurname" type="text" placeholder="Surname"/><br>
-                <button type="submit">Apply</button>
+                <button class ="button" type="submit">Apply</button>
             </form:form>
                 </div>
                 <div id="sortByGenre">
-                    Get book list by genre<br><br>
+                    <b>Get book list by genre</b><br>
+                    (Leave empty to get all books)<br><br>
                 <spring:url value="/books/genre" var="byGenre"/>
                 <form:form modelAttribute="genre" action="${byGenre}">
                     <form:label path="genreTitle">Genre</form:label><br>
                 <form:input path="genreTitle" type="text" placeholder="First Name"/><br>
-                <button type="submit">Apply</button>
+                <button class="button" type="submit">Apply</button>
             </form:form>
                 </div>
                 <hr>
@@ -85,7 +94,7 @@
                         position: absolute;
                         width: 30%;
                         height: 30%;
-                        left:20%;
+                        left:34%;
                         top:25%;
                         border: 3px solid #e3eef7;
                         
@@ -95,8 +104,11 @@
                         position:absolute;
                         width:30%;
                         height: 30%;
-                        left: 55%;
+                        left: 69%;
                         top:25%;
+                    }
+                    .button{
+                        background-color: #f44336;
                     }
                     .table_blur {
   background: #f5ffff;
@@ -149,6 +161,7 @@
   color: #444444;
   text-shadow: none;
 }
+.error { color: red; font-size: 0.9em; font-weight: bold; }
                     </style>
     </body>
 </html>

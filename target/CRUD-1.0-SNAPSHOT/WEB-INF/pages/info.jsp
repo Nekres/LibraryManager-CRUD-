@@ -12,9 +12,10 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <h1>
         <%
-            String select = (String)request.getAttribute("errorMessage");
-            out.println(select);
+            String select = (String)request.getAttribute("infoMessage");
+            out.println(select + "</h1>");
             String getback = (String)request.getAttribute("goBack");
             out.println(getback);
             %>

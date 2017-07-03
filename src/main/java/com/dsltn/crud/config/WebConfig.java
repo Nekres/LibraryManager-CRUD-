@@ -24,6 +24,7 @@ import com.dsltn.crud.service.ClientService;
 import com.dsltn.crud.service.ClientServiceImpl;
 import com.dsltn.crud.service.GenreService;
 import com.dsltn.crud.service.GenreServiceImpl;
+import com.dsltn.crud.validator.ClientValidator;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -38,9 +39,12 @@ import javax.sql.DataSource;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -86,9 +90,11 @@ public class WebConfig extends WebMvcConfigurerAdapter{
         
     } 
     @Bean("orderController")
-    public OrderController getOrderController(@Named ("clientService") ClientService clientService){
+    public OrderController getOrderController(@Named ("clientService") ClientService clientService, @Named("bookService") 
+    BookService bookService){
         OrderController oc = new OrderController();
         oc.setClientService(clientService);
+        oc.setBookService(bookService);
         return oc;
     }
     @Bean("bookService")
@@ -142,7 +148,7 @@ public class WebConfig extends WebMvcConfigurerAdapter{
     @Bean("sessionFactory")
     public SessionFactory getSessionFactory(@Named("dataSource") DataSource dataSource){
         org.springframework.orm.hibernate5.LocalSessionFactoryBean lsfb = new LocalSessionFactoryBean();
-        lsfb.setAnnotatedClasses(BookDao.class);
+        lsfb.setAnnotatedClasses(BookDao.class, ClientDao.class,GenreDao.class,AuthorDao.class);
         lsfb.setDataSource(dataSource);
         lsfb.setHibernateProperties(hibernateProperties());
         lsfb.setPackagesToScan(new String[]{"com.dsltn.crud.model"});
@@ -153,7 +159,12 @@ public class WebConfig extends WebMvcConfigurerAdapter{
         }
         return lsfb.getObject();
     }
-    
+    @Bean
+    public MessageSource messageSource(){
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("messages");
+        return messageSource;
+    }
     @Bean("dataSource")
     public DriverManagerDataSource getDataSource(){
         DriverManagerDataSource bsd = new DriverManagerDataSource();
@@ -162,6 +173,11 @@ public class WebConfig extends WebMvcConfigurerAdapter{
         bsd.setUsername("root");
         bsd.setPassword("finished");
         return bsd;
+    }
+    @Bean("clientValidator")
+    public ClientValidator clientValidator(){
+        ClientValidator clientValidator = new ClientValidator();
+        return clientValidator;
     }
     Properties hibernateProperties(){
         org.hibernate.cfg.Configuration config = new org.hibernate.cfg.Configuration();
@@ -179,7 +195,6 @@ public class WebConfig extends WebMvcConfigurerAdapter{
     public HibernateTransactionManager transactionManager(@Named("sessionFactory") SessionFactory sessionFactory){
             HibernateTransactionManager htm = new HibernateTransactionManager();
                     htm.setSessionFactory(sessionFactory);
-                   // htm.setDataSource(dataSource);
             return htm;
         }
         

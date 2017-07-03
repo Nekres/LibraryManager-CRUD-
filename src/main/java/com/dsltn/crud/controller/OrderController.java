@@ -7,14 +7,22 @@ package com.dsltn.crud.controller;
 
 import com.dsltn.crud.model.Author;
 import com.dsltn.crud.model.Client;
+import com.dsltn.crud.model.Genre;
+import com.dsltn.crud.service.BookService;
 import com.dsltn.crud.service.ClientService;
+import com.dsltn.crud.validator.ClientValidator;
 import javax.validation.Valid;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
@@ -25,22 +33,33 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @RequestMapping("/order")
 public class OrderController extends WebMvcConfigurerAdapter{
     private ClientService clientService;
-    
+    private BookService bookService;
+    private ClientValidator clientValidator;
+
+    public void setClientValidator(ClientValidator clientValidator) {
+        this.clientValidator = clientValidator;
+    }
     @RequestMapping(value = "/buy", method = RequestMethod.POST)
-    public String orderPage(@ModelAttribute(name = "client") @Valid Client client, ModelMap model, BindingResult bindingResult){
-        model.addAttribute("client", new Client());
+    public ModelAndView orderPage( @Valid @ModelAttribute(name = "client") Client client,BindingResult bindingResult, ModelMap model){
+        model.addAttribute("bookList", this.bookService.getAllBooks());
+        model.addAttribute("client",new Client());
         model.addAttribute("author", new Author());
-        if(client.getFirstName() == "" && client.getLastName() == "" && client.getAddress() == ""){
-            model.addAttribute("errorMessage","Some fields is empty. You must to fill them all.");
-            model.addAttribute("goBack","<a href=\"../\">Go back and try again</a>");
-            return "/info";
+        model.addAttribute("genre", new Genre());
+        if(bindingResult.hasErrors()){
+            return new ModelAndView("index",bindingResult.getModel());
         }
-        client.setQuantity(client.bookCounter.size());
-        client.setUserId(0);
-        clientService.add(client);
-        return "redirect:/"; 
+        else
+            clientService.add(client);
+        model.addAttribute("infoMessage","Success. Thank you for your order.");
+        model.addAttribute("goBack","<a href=\"/\">Go back and try again</a>");
+        return new ModelAndView("/info",bindingResult.getModel());
     }
 
+    public void setBookService(BookService bookService) {
+        this.bookService = bookService;
+    }
+    
+    
     public void setClientService(ClientService clientService) {
         this.clientService = clientService;
     }

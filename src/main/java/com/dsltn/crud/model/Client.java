@@ -27,17 +27,14 @@ public class Client {
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int userId;
-    @NotNull
-    @Size(min=16, max = 80)
+    @Size(min= 3, message = "First name can't be empty.")
     @Column(name = "first_name")
     private String firstName;
-    @NotNull
-    @Size(min=4, max=16)
+    @Size(min=4, max=16, message ="Last name can't be empty.")
     @Column(name = "last_name")
     private String lastName;
     @Column(name = "address")
-    @NotNull
-    @Size(min=4, max=16)
+    @Size(min=4, message ="Address can't be empty.")
     private String address;
     @Column(name = "quantity")
     private int quantity;

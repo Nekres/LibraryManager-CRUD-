@@ -14,14 +14,17 @@ import com.dsltn.crud.service.BookService;
 import com.dsltn.crud.service.GenreService;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.Valid;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -86,16 +89,23 @@ public class BookController {
     @RequestMapping(value = "/books", method = RequestMethod.GET)
     public String bookList(Model model){
         model.addAttribute("bookList", this.bookService.getAllBooks());
-        model.addAttribute("book", new Book());
+        model.addAttribute("bookAdd", new Book());
+        model.addAttribute("bookEdit", new Book());
         return "books";
     }
     @RequestMapping(value = "/books/add",method = RequestMethod.POST)
-    public String add(@ModelAttribute("book") Book book){
+    public ModelAndView add(@Valid @ModelAttribute("bookAdd") Book book, BindingResult bindingResult, Model model){
+        model.addAttribute("bookList", this.bookService.getAllBooks());
+        model.addAttribute("bookAdd", new Book());
+        model.addAttribute("bookEdit", new Book());
+        if(bindingResult.hasErrors()){
+            return new ModelAndView("books",bindingResult.getModel());
+        }
         Author a = book.getAuthor();
         String name = a.getAuthorName();
         String surname = a.getAuthorSurname();
         Author author = authorService.getAuthorByNameAndSurname(name, surname);
-        if(author != null){
+        if(author != null){ //to not create new one similar author
             book.setAuthor(author);
         }
         else{
@@ -107,17 +117,21 @@ public class BookController {
         else
             genreService.add(book.getGenre());
             bookService.add(book);
-        return "redirect:/books";
+        return new ModelAndView("redirect:/books",bindingResult.getModel());
     }
     @RequestMapping(value = "/books/edit", method = RequestMethod.POST)
-    public String edit(@ModelAttribute("book") Book book,Model model){
+    public ModelAndView edit(@Valid @ModelAttribute("bookEdit") Book book, BindingResult bindingResult, Model model){
         Author a = book.getAuthor();
+        model.addAttribute("bookAdd", new Book());
+        model.addAttribute("bookEdit", new Book());
         Book b = bookService.getBookByid(book.getId());
         if(b == null){
             model.addAttribute("infoMessage","Book with this id not exist");
             model.addAttribute("goBack","<a href=\"../books\">Back to the main page.</a>");
-            return "info";
+            return new ModelAndView("info");
         }//if books does not exist throw error
+        if(bindingResult.hasErrors())
+            return new ModelAndView("books", bindingResult.getModel());
         String name = a.getAuthorName();
         String surname = a.getAuthorSurname();
         Author author = authorService.getAuthorByNameAndSurname(name, surname);
@@ -132,8 +146,8 @@ public class BookController {
              book.setGenre(genre);
         else
             genreService.add(book.getGenre());
-        bookService.edit(book);
-        return "redirect:/books";
+            bookService.edit(book);
+        return new ModelAndView("redirect:/books",bindingResult.getModel());
     }
     
 

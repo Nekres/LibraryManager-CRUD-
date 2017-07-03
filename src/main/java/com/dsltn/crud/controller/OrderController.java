@@ -10,7 +10,6 @@ import com.dsltn.crud.model.Client;
 import com.dsltn.crud.model.Genre;
 import com.dsltn.crud.service.BookService;
 import com.dsltn.crud.service.ClientService;
-import com.dsltn.crud.validator.ClientValidator;
 import javax.validation.Valid;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -34,24 +33,21 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class OrderController extends WebMvcConfigurerAdapter{
     private ClientService clientService;
     private BookService bookService;
-    private ClientValidator clientValidator;
 
-    public void setClientValidator(ClientValidator clientValidator) {
-        this.clientValidator = clientValidator;
-    }
     @RequestMapping(value = "/buy", method = RequestMethod.POST)
     public ModelAndView orderPage( @Valid @ModelAttribute(name = "client") Client client,BindingResult bindingResult, ModelMap model){
         model.addAttribute("bookList", this.bookService.getAllBooks());
         model.addAttribute("client",new Client());
         model.addAttribute("author", new Author());
         model.addAttribute("genre", new Genre());
+        client.setQuantity(client.getBookCounter().size());
         if(bindingResult.hasErrors()){
             return new ModelAndView("index",bindingResult.getModel());
         }
         else
             clientService.add(client);
         model.addAttribute("infoMessage","Success. Thank you for your order.");
-        model.addAttribute("goBack","<a href=\"/\">Go back and try again</a>");
+        model.addAttribute("goBack","<a href=\"../\">Go back and try again</a>");
         return new ModelAndView("/info",bindingResult.getModel());
     }
 

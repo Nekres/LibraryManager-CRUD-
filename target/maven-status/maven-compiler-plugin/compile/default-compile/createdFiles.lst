@@ -6,7 +6,6 @@ com/dsltn/crud/dao/AuthorDao.class
 com/dsltn/crud/model/Genre.class
 com/dsltn/crud/service/AuthorService.class
 com/dsltn/crud/dao/BookDao.class
-com/dsltn/crud/validator/ClientValidator.class
 com/dsltn/crud/model/Book.class
 com/dsltn/crud/service/ClientService.class
 com/dsltn/crud/service/GenreServiceImpl.class

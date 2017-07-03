@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 
 /**
@@ -25,7 +26,7 @@ public class Genre {
     @Column(name = "genre_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int genreId;
-    
+    @Size(min = 3, message = "Genre must have at least 3 characters")
     @Column(name = "genre_title")
     private String genreTitle;
 

@@ -42,7 +42,8 @@
                 <tr>
                     <td>id</td>
                     <td>title</td>
-                    <td>author</td>
+                    <td>author Name</td>
+                    <td>author Surname</td>
                     <td>genre</td>
                     <td>description</td>
                     <td>price</td>
@@ -54,6 +55,7 @@
                     <td>${book.id}</td>
                     <td>${book.bookTitle}</td>
                     <td>${book.author.authorName}</td>
+                    <td>${book.author.authorSurname}</td>
                     <td>${book.genre.genreTitle}</td>
                     <td>${book.bookDescription}</td>
                     <td>${book.bookPrice}</td>
@@ -73,6 +75,7 @@
                 <form:form modelAttribute="author" action="${byAuthor}">
                     <form:label path="authorName">First Name</form:label><br>
                 <form:input path="authorName" type="text" placeholder="First Name"/><br>
+                
                 <form:label path="authorSurname">Surname</form:label><br>
                 <form:input path="authorSurname" type="text" placeholder="Surname"/><br>
                 <button class ="button" type="submit">Apply</button>
@@ -94,8 +97,8 @@
                         position: absolute;
                         width: 30%;
                         height: 30%;
-                        left:34%;
-                        top:25%;
+                        left:37%;
+                        top:26%;
                         border: 3px solid #e3eef7;
                         
                     }

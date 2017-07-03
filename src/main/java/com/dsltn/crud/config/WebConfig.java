@@ -5,55 +5,21 @@
  */
 package com.dsltn.crud.config;
 
-import com.dsltn.crud.controller.BookController;
-import com.dsltn.crud.controller.OrderController;
-import com.dsltn.crud.dao.AuthorDao;
-import com.dsltn.crud.dao.AuthorDaoImpl;
-import com.dsltn.crud.dao.BookDao;
-import com.dsltn.crud.dao.BookDaoImpl;
-import com.dsltn.crud.dao.ClientDao;
-import com.dsltn.crud.dao.ClientDaoImpl;
-import com.dsltn.crud.dao.GenreDao;
-import com.dsltn.crud.dao.GenreDaoImpl;
+import com.dsltn.crud.controller.*;
+import com.dsltn.crud.dao.*;
 import com.dsltn.crud.model.Book;
-import com.dsltn.crud.service.AuthorService;
-import com.dsltn.crud.service.AuthorServiceImpl;
-import com.dsltn.crud.service.BookService;
-import com.dsltn.crud.service.BookServiceImpl;
-import com.dsltn.crud.service.ClientService;
-import com.dsltn.crud.service.ClientServiceImpl;
-import com.dsltn.crud.service.GenreService;
-import com.dsltn.crud.service.GenreServiceImpl;
-import com.dsltn.crud.validator.ClientValidator;
-import java.io.File;
-import java.io.FileNotFoundException;
+import com.dsltn.crud.service.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.inject.Inject;
 import javax.inject.Named;
-import javax.inject.Scope;
 import javax.sql.DataSource;
-import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.context.annotation.*;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.hibernate5.*;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.JstlView;
+import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.view.*;
 
 /**
  *
@@ -159,36 +125,20 @@ public class WebConfig extends WebMvcConfigurerAdapter{
         }
         return lsfb.getObject();
     }
-    @Bean
-    public MessageSource messageSource(){
-        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasename("messages");
-        return messageSource;
-    }
     @Bean("dataSource")
     public DriverManagerDataSource getDataSource(){
         DriverManagerDataSource bsd = new DriverManagerDataSource();
         bsd.setDriverClassName("com.mysql.jdbc.Driver");
         bsd.setUrl("jdbc:mysql://localhost:3306/library");
-        bsd.setUsername("root");
-        bsd.setPassword("finished");
+        bsd.setUsername("librarian");
+        bsd.setPassword("librarian");
         return bsd;
-    }
-    @Bean("clientValidator")
-    public ClientValidator clientValidator(){
-        ClientValidator clientValidator = new ClientValidator();
-        return clientValidator;
     }
     Properties hibernateProperties(){
         org.hibernate.cfg.Configuration config = new org.hibernate.cfg.Configuration();
         config.addAnnotatedClass(Book.class);
         config = config.configure();
         Properties p = config.getProperties();
-       //p.put("hibernate_dialect", "org.hibernate.dialect.MySQLDialect");
-       // p.put("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-       // p.put("hibernate.connection.url", "jdbc:mysql://localhost:3306/library");
-       // p.put("hibernate.connection.username", "root");
-       // p.put("hibernate.connection.password", "finished");
         return p;
     }
     @Bean

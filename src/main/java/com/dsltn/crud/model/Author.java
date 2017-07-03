@@ -11,6 +11,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import org.springframework.validation.annotation.Validated;
 
 
 /**
@@ -27,8 +30,9 @@ public class Author {
     private int authorId;
     
     @Column(name = "author_name")
+    @Size(min = 3, max = 30, message = "Name must have at least 3 characters")
     private String authorName;
-    
+    @Size(min = 3, max = 30, message = "Surname must have at least 3 characters")
     @Column(name = "author_surname")
     private String authorSurname;
 

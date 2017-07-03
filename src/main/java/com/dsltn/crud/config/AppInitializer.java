@@ -30,7 +30,7 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
     @Override
     protected String[] getServletMappings() {
-        return new String[]{"/","/confidential/"};
+        return new String[]{"/"};
     }
 
     

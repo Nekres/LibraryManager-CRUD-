@@ -119,6 +119,7 @@
   background: #f5ffff;
   border-collapse: collapse;
   text-align: left;
+  font-size: 7;
 }
 .table_blur th {
   border-top: 1px solid #777777;	
@@ -154,7 +155,6 @@
 }
 .table_blur td {
   border: 1px solid #e3eef7;
-  padding: 10px 15px;
   position: relative;
   transition: all 0.5s ease;
 }

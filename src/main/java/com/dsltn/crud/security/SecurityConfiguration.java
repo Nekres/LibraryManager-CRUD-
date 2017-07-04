@@ -26,7 +26,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/books/**").access("hasRole('ROLE_ADMIN')").and()
+        http.authorizeRequests().antMatchers("/books/add").access("hasRole('ROLE_ADMIN')").and()
+                .formLogin().defaultSuccessUrl("/",false);
+        http.authorizeRequests().antMatchers("/books/edit").access("hasRole('ROLE_ADMIN')").and()
+                .formLogin().defaultSuccessUrl("/",false);
+        http.authorizeRequests().antMatchers("/books").access("hasRole('ROLE_ADMIN')").and()
                 .formLogin().defaultSuccessUrl("/",false);
     }
     

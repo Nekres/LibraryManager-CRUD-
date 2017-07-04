@@ -27,7 +27,7 @@ CREATE TABLE `author` (
   `author_name` varchar(45) DEFAULT NULL,
   `author_surname` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`author_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +36,7 @@ CREATE TABLE `author` (
 
 LOCK TABLES `author` WRITE;
 /*!40000 ALTER TABLE `author` DISABLE KEYS */;
-INSERT INTO `author` VALUES (15,'Joanne','Rowling');
+INSERT INTO `author` VALUES (15,'Joanne','Rowling'),(18,'Stephen','King'),(19,'dfhfdhdfh','dfhdhdhdgh'),(20,'dsfsdgsdg','gsdgsgsfg'),(21,'fgsdgsdgsdgsfgs','gsdgadfasdasd');
 /*!40000 ALTER TABLE `author` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -59,7 +59,7 @@ CREATE TABLE `book` (
   KEY `fk_genre_id_idx` (`genre_id`),
   CONSTRAINT `fk_author_id` FOREIGN KEY (`author_id`) REFERENCES `author` (`author_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_genre_id` FOREIGN KEY (`genre_id`) REFERENCES `genre` (`genre_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,7 +68,7 @@ CREATE TABLE `book` (
 
 LOCK TABLES `book` WRITE;
 /*!40000 ALTER TABLE `book` DISABLE KEYS */;
-INSERT INTO `book` VALUES (1,15,15,'Harry Potter is a series of fantasy novels written by British author J. K. Rowling. The novels chronicle the life of a young wizard, Harry Potter, and his friends Hermione Granger and Ron Weasley, all of whom are students at Hogwarts School of Witchcraft and Wizardry. The main story arc concerns Harry\'s struggle against Lord Voldemort, a dark wizard who intends to become immortal, overthrow the wizard governing body known as the Ministry of Magic, and subjugate all wizards and muggles, a reference term that means non-magical people.',500,'Harry Potter and filosopher\'s stone');
+INSERT INTO `book` VALUES (1,15,15,'Harry Potter is a series of fantasy novels written by British author J. K. Rowling. The novels chronicle the life of a young wizard, Harry Potter, and his friends Hermione Granger and Ron Weasley, all of whom are students at Hogwarts School of Witchcraft and Wizardry. The main story arc concerns Harry\'s struggle against Lord Voldemort, a dark wizard who intends to become immortal, overthrow the wizard governing body known as the Ministry of Magic, and subjugate all wizards and muggles, a reference term that means non-magical people.',500,'Harry Potter and filosopher\'s stone'),(6,15,18,'Harry Potter is a series of fantasy novels written by British author J. K. Rowling. The novels chronicle the life of a young wizard, Harry Potter, and his friends Hermione Granger and Ron Weasley, all of whom are students at Hogwarts School of Witchcraft and Wizardry. ',600,'Harry Potter and Sorcerer Stone'),(7,18,19,'Carrie is a novel by American author Stephen King. It was his first published novel, released on April 5, 1974, with an approximate first print-run of 30,000 copies.[1] Set primarily in the then-future year of 1979, it revolves around the eponymous Carrie White, a misfit and bullied high school girl who uses her newly discovered telekinetic powers to exact revenge on those who torment her, while in the process causing one of the worst local disasters in American history. ',800,'Carrie');
 /*!40000 ALTER TABLE `book` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -86,7 +86,7 @@ CREATE TABLE `client` (
   `address` varchar(45) DEFAULT NULL,
   `quantity` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,7 +95,6 @@ CREATE TABLE `client` (
 
 LOCK TABLES `client` WRITE;
 /*!40000 ALTER TABLE `client` DISABLE KEYS */;
-INSERT INTO `client` VALUES (21,'Misha','Shikoryak','Odessa','0'),(22,'Misha','Shikoryak','Odessa','0'),(23,'Misha','Shikoryak','Odessa','0'),(24,'Misha','Shikoryak','Odessa','0'),(25,'Misha','Shikoryak','Odessa','0'),(26,'Misha','Shikoryak','Odessa','0'),(27,'Misha','Shikoryak','Odessa','0'),(28,'Misha','Shikoryak','Odessa','0'),(29,'Misha','Shikoryak','Odessa','0'),(30,'Misha','Shikoryak','Odessa','0');
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -110,7 +109,7 @@ CREATE TABLE `genre` (
   `genre_id` int(11) NOT NULL AUTO_INCREMENT,
   `genre_title` varchar(45) NOT NULL,
   PRIMARY KEY (`genre_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -119,7 +118,7 @@ CREATE TABLE `genre` (
 
 LOCK TABLES `genre` WRITE;
 /*!40000 ALTER TABLE `genre` DISABLE KEYS */;
-INSERT INTO `genre` VALUES (9,'drama'),(10,'comedy'),(11,'romance'),(12,'tragedy'),(13,'nonsense'),(14,'lyric'),(15,'fantazy');
+INSERT INTO `genre` VALUES (9,'drama'),(10,'comedy'),(11,'romance'),(12,'tragedy'),(13,'nonsense'),(14,'lyric'),(15,'fantazy'),(16,''),(17,'asdasd'),(18,'fantasy'),(19,'horror'),(20,'dghdhhfhfh'),(21,'fsgfgdgfg'),(22,'asfagdsfsdgsdgsdg');
 /*!40000 ALTER TABLE `genre` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -140,4 +139,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-03 17:41:13
+-- Dump completed on 2017-07-04 14:07:51

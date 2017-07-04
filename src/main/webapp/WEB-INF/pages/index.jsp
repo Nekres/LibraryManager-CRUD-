@@ -48,6 +48,7 @@
                     <td>description</td>
                     <td>price</td>
                     <td>Order book</td>
+                    <td>Book details</td>
                 </tr>
                 <hr>
                 <h4>Select any book you want to order.</h4>
@@ -61,6 +62,7 @@
                     <td>${book.bookPrice}</td>
                     <td>
                         <form:checkbox path="bookCounter" value="${book.id}"/> add</td>
+                    <td><a href="<c:url value="/details/${book.id}"/>"/>see details</a>
             </tr> 
                 
                  </c:forEach>

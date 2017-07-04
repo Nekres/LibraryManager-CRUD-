@@ -14,13 +14,23 @@
             .error { color: red; font-size: 0.9em; font-weight: bold; }
                     </style>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Administrator's panel</title>
         <spring:url value="/resources/css/styles.css" var="mainCss" />
         <link href="${mainCss}" rel="stylesheet" />
     </head>
     <body>
         <a href="<c:url value="/"/>">Go back to client-part</a>
         <h1>Welcome to Library Manager admin-mode</h1>
+        <c:if test="${pageContext.request.userPrincipal.name != null}">
+			<h2>Welcome : ${pageContext.request.userPrincipal.name}
+				<%--@elvariable id="_csrf" type="org.springframework.web.bind.MissingServletRequestParameterException"--%>
+				<c:url var="logoutUrl" value="/logout" />
+			     <form action="${logoutUrl}" id="logout" method="post">
+			      <input type="hidden" name="${_csrf.parameterName}"
+                       value="${_csrf.token}" />
+			      <input type="submit" name="submit" value="Log Out">
+			     </form>
+			</c:if>
         <c:if test="${!empty bookList}">
             <table border="1" class="table_blur">
                 <tr>

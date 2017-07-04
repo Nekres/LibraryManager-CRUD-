@@ -12,10 +12,8 @@ import com.dsltn.crud.model.Genre;
 import com.dsltn.crud.service.AuthorService;
 import com.dsltn.crud.service.BookService;
 import com.dsltn.crud.service.GenreService;
-import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -149,8 +147,12 @@ public class BookController {
             bookService.edit(book);
         return new ModelAndView("redirect:/books",bindingResult.getModel());
     }
-    
-
+    @RequestMapping(value = "/details/{id}")
+    public String details(@PathVariable(value = "id") int id, Model model){
+        Book book = bookService.getBookByid(id);
+        model.addAttribute("book", book);
+        return "details";
+    }
    
     
 }
